@@ -225,12 +225,12 @@ class Star {
       let y = this.pos.y + this.orbitRadius * sin(this.constellation[i].angle);
       let target = createVector(x, y);
 
-      // Use the lerp function to move the current star towards the target position
+      // lerp function to move the current star towards the target position
       this.constellation[i].pos = p5.Vector.lerp(
         this.constellation[i].pos,
         target,
         this.constellation[i].lerpNumber
-      ); // Adjust the lerp factor as needed
+      );
 
       //console.log(this.constellation[i].pos.z);
     }
@@ -251,12 +251,12 @@ class Star {
       }
     }
     for (let i = 0; i < this.constellation.length; i++) {
-      // Use the lerp function to move the current star towards the target position
+      // lerp function to move the current star towards the target position
       this.constellation[i].pos = p5.Vector.lerp(
         this.constellation[i].pos,
         this.constellation[i].target,
         0.05
-      ); // Adjust the lerp factor as needed
+      );
     }
   }
 
@@ -271,10 +271,10 @@ class Star {
   handleClick() {
     if (this.mouseOver()) {
       this.isClicked = true;
-      // Create and show the modal
+      // Create the modal when star is clisked
       modal = new Modal(this);
       console.log("a modal was created!");
-      modal.toggle();
+      modal.toggle(); //Toggle the visibility of the modal
     } else {
       this.isClicked;
     }
