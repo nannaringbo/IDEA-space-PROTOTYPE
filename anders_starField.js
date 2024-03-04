@@ -139,7 +139,7 @@ let colorMatrix = [
 
 function preload() {
   // Load random dates from text file
-  loadStrings("TESTstar_data.txt", function (data) {
+  loadStrings("star_data.txt", function (data) {
     dates = data.map((date) => new Date(date.trim()));
     // Calculate sample z numbers based on the dates
     let today = new Date(); // Get today's date
