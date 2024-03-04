@@ -31,6 +31,18 @@ canvas {
   -webkit-text-stroke: 2px #ceead6;
 }
 
+.subHeader {
+  position: fixed;
+  text-align: center;
+  top: 125px;
+
+  border-radius: 25px;
+  padding: 10px;
+  text-align: start;
+  font-family: "Courier Prime", monospace;
+  color: #e37400;
+}
+
 .user-info {
   position: fixed;
   scale: 0.8;

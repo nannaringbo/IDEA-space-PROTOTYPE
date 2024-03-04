@@ -18,7 +18,7 @@ function setup() {
   inputDes.size(200, 50);
 
   text("Pick a color for the star:", windowWidth / 2 - 350, 140 + 220);
-  colPic = createColorPicker("green");
+  colPic = createColorPicker("#ceead6");
   colPic.position(windowWidth / 2 - 200, 340);
 
   let button = createButton(" Add Idea ");
