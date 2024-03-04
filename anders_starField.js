@@ -146,7 +146,7 @@ function preload() {
     sampleZNumbers = dates.map((date) => {
       let difference = today - date;
       let calZ = Math.floor(difference / (1000 * 60 * 60 * 24)); // Return the calculated z number (in days)
-      let zNumber = map(calZ, 0, 3500, 100, 0); // Reverse the mapping to a value between 100 and 0
+      let zNumber = map(calZ, 0, 4500, 100, 0); // Reverse the mapping to a value between 100 and 0
       return zNumber;
     });
   });
@@ -165,8 +165,9 @@ function setup() {
     stars[i].makeConstellation(stars);
   }
   //colorSelector = new ColorSearchBox(200,235,50,50);
-  colorSelector = createColorPicker("Black");
-  colorSelector.position(200, 235);
+  colorSelector = createColorPicker();
+  //colorSelector.position(200, 235);
+  colorSelector.addClass("color-selector"); // Assign a class to the color selector element
 }
 
 function fillArray() {
@@ -483,76 +484,43 @@ class Modal {
     this.description =
       this.starRadius + " and z-position " + star.ogZNumber + star.notes;
     this.bulletPoints = ["Point 1", "Point 2", "Point 3"]; // Replace with actual properties
-
-    // Define the size and position of the modal
-    this.width = 600;
-    this.height = 400;
-    this.x = (windowWidth - this.width) / 2;
-    this.y = (windowHeight - this.height) / 2;
-
-    // Define the size and position of the close button
-    this.closeButtonSize = 20;
-    this.closeButtonText = "X";
-    this.closeButtonX = this.x + this.width - this.closeButtonSize;
-    this.closeButtonY = this.y;
     this.color = star.color;
+
+    // Get the modal elements
+    this.modal = document.getElementById("starModal");
+    this.modalTitle = document.getElementById("modalTitle");
+    this.modalDescription = document.getElementById("modalDescription");
+    this.modalBulletPoints = document.getElementById("modalBulletPoints");
+    this.closeButton = document.getElementById("closeButton");
+
+    // Add event listener to the close button
+    this.closeButton.addEventListener("click", () => this.hide());
   }
 
   show() {
     if (this.isVisible) {
-      noStroke();
-      fill(color(this.color)); // Background color
+      // Set the modal content
+      this.modalTitle.textContent = this.title;
+      this.modalDescription.textContent = this.description;
+      this.modalBulletPoints.innerHTML = this.bulletPoints
+        .map((point) => `<li>${point}</li>`)
+        .join("");
 
-      // Draw the modal
-      rect(this.x, this.y, this.width, this.height);
-
-      // Draw the title
-      fill(color(0, 0, 0)); // Text color
-      text(this.title, this.x + 10, this.y + 20);
-
-      // Draw the description
-      text(this.description, this.x + 10, this.y + 40);
-
-      // Draw the bullet points
-      for (let i = 0; i < this.bulletPoints.length; i++) {
-        text("- " + this.bulletPoints[i], this.x + 10, this.y + 70 + i * 20);
-      }
-      let iconSize = 50;
-      let iconMargin = 10;
-      let iconY = this.y + 100;
-      for (let i = 0; i < 4; i++) {
-        let iconX = this.x + 10 + i * (iconSize + iconMargin);
-        noFill();
-        stroke(0);
-        rect(iconX, iconY, iconSize, iconSize);
-      }
-
-      fill(color(255, 0, 0)); // Close button color
-      rect(
-        this.closeButtonX,
-        this.closeButtonY,
-        this.closeButtonSize,
-        this.closeButtonSize
-      );
+      // Show the modal
+      this.modal.style.display = "block";
     }
   }
 
   hide() {
     this.isVisible = false;
+    this.modal.style.display = "none";
   }
 
   toggle() {
     this.isVisible = !this.isVisible;
-  }
-
-  clicked(x, y) {
-    // Check if the close button was clicked
-    if (
-      x > this.closeButtonX &&
-      x < this.closeButtonX + this.closeButtonSize &&
-      y > this.closeButtonY &&
-      y < this.closeButtonY + this.closeButtonSize
-    ) {
+    if (this.isVisible) {
+      this.show();
+    } else {
       this.hide();
     }
   }
