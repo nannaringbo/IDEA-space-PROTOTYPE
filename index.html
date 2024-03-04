@@ -1,35 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Idea Space</title>
-
     <link rel="stylesheet" type="text/css" href="style.css" />
-
-    <script src="libraries/p5.min.js"></script>
+    <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="libraries/p5.min.js"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="colorpic.js"
+    ></script>
+    <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
   </head>
 
   <body>
     <h1 class="header">Idea Space</h1>
-    <div class="user-info">
-      <h3>Árni's sky</h3>
-      <p>Since 12/07/2022 you have captured <b>543</b> stars</p>
-      <element class="color-selector"></element>
-    </div>
-    <div id="starModal" class="modal">
-      <div class="modal-content">
-        <span id="closeButton" class="close">&times;</span>
-        <h1 id="modalTitle"></h1>
-        <p id="modalDescription"></p>
-        <ul id="modalBulletPoints"></ul>
-      </div>
-    </div>
-
-    <!-- <script src="star.js"></script> -->
-    <script class="star-field" src="starField.js"></script>
-    <div id="data"><href src="star_data.txt"></href></div>
-    <div id="dataTitles"><href src="title_data.txt"></href></div>
   </body>
 </html>
