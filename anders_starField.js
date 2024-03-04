@@ -4,6 +4,7 @@ let dates = []; // Array to store dates
 let sampleZNumbers = [];
 let modal = null;
 let colorSelector;
+let titles = [];
 // toprow colors on the color palette.
 /*
 let colorMatrix = [
@@ -137,20 +138,21 @@ let colorMatrix = [
 ];
 
 function preload() {
-  // Use preload() function to load data before setup() is called
-  loadStrings("star_data.txt", function (data) {
+  // Load random dates from text file
+  loadStrings("TESTstar_data.txt", function (data) {
     dates = data.map((date) => new Date(date.trim()));
-    //console.log(dates); // Log the dates array to the console
-    // Calculate sample z numbers here, inside the callback
+    // Calculate sample z numbers based on the dates
     let today = new Date(); // Get today's date
     sampleZNumbers = dates.map((date) => {
       let difference = today - date;
-      let calZ = Math.floor(difference / (1000 * 60 * 60 * 24)); // Return the calculated z number
-      let zNumber = map(calZ, 0, 3500, 0, 100);
+      let calZ = Math.floor(difference / (1000 * 60 * 60 * 24)); // Return the calculated z number (in days)
+      let zNumber = map(calZ, 0, 3500, 100, 0); // Reverse the mapping to a value between 100 and 0
       return zNumber;
     });
-
-    //console.log(sampleZNumbers); // Log the sample z numbers array to the console
+  });
+  // Load random dates from text file
+  loadStrings("title_data.txt", function (dataTitles) {
+    titles = dataTitles.map((title) => new String(title.trim()));
   });
 }
 
@@ -169,10 +171,11 @@ function setup() {
 
 function fillArray() {
   for (let s = 0; s < sampleZNumbers.length; s++) {
-    //console.log(sampleZNumbers[s]);
+    console.log(sampleZNumbers[s]);
     let p = new Star(sampleZNumbers[s]);
-    //console.log(p);
-    //console.log(p.radius);
+    console.log(p);
+    console.log(p.pos.z);
+    console.log(p.radius);
     stars.push(p);
   }
 }
@@ -243,29 +246,30 @@ function draw() {
 
 class Star {
   constructor(z) {
-    this.title = "";
-    this.notes = "";
-    this.location = "";
-    this.img = "";
+    this.title = random(titles);
+    this.notes =
+      "Fusce vitae sodales sem, venenatis porttitor lorem. Curabitur faucibus sagittis magna a pellentesque. Aliquam malesuada euismod erat ac dignissim. Aliquam vel viverra turpis. Suspendisse pellentesque condimentum orci, quis consequat tellus accumsan pretium. Nullam lobortis vestibulum eleifend. Donec mauris neque, ornare consectetur justo ut, pulvinar dapibus lorem. Quisque quis lacus sit amet urna pharetra lacinia in nec lorem. Maecenas hendrerit metus eget luctus sagittis. Nunc at interdum odio, in elementum ipsum. Maecenas urna urna, pulvinar et urna posuere, faucibus euismod tortor.";
+    this.location = "📍Isamageriet";
+    this.img = "SV_NotExist.jpg";
     this.sound = "";
     this.sense = "";
     this.ogZNumber = z;
     this.pos = createVector(
-      random(0, windowWidth - 20),
-      random(0, windowHeight - 20),
+      random(0, windowWidth - 30),
+      random(0, windowHeight - 30),
       z
     );
-    this.radius = map(z, 0, 100, 12, 1); // calculating radius based on the z index. The bigger the z index, the smaller the radius
+    this.radius = map(this.pos.z, 0, 100, 1, 12);
     this.alpha = random(200, 255);
     this.fadeAmount = random(1, 5); //the amount that alpha is de/increased for every update
-    this.rotationSpeed = random(-0.02, 0.02);
+    this.rotationSpeed = random(0.02, 0.2);
     this.angle = random(-90, 90); // Angle for rotation
-    this.speed = random(-0.05, 0.0);
+    this.speed = random(0, 0.1);
     this.color = color(random(colorMatrix));
     this.constellation = [];
     this.isClicked = false;
-    this.orbitRadius = random(-50, 50);
-    this.lerpNumber = random(0.01, 0.1);
+    this.orbitRadius = random(0, 58);
+    this.lerpNumber = random(0.1, 0.5);
     this.selected = false;
   }
 
@@ -296,23 +300,24 @@ class Star {
     if (d < this.radius) {
       push();
       rectMode(CENTER);
-      fill("yellow");
-      let str = "Icecream shop";
-      text(str, this.pos.x, this.pos.y, 70, 80);
+      fill("#e37400");
+      let str = this.title;
+      text(str, this.pos.x, this.pos.y, 200, 30, 999); // Increase the z number by 1
       pop();
     }
     return d < this.radius;
   }
   engorge() {
-    if (this.radius < 50) {
+    if (this.radius < 30) {
       this.radius++;
-      this.pos.z = 0;
+      this.pos.z = 105;
     }
     for (let i = 0; i < this.constellation.length; i++) {
       // Update the angle for the current star
-      this.constellation[i].angle += 0.01; // Adjust the speed as needed
-      this.constellation[i].radius = this.radius;
-      this.constellation[i].pos.z = random(0.1, 2);
+      this.constellation[i].angle += 0.001; // Adjust the speed as needed
+      this.constellation[i].radius = this.radius - 10;
+      this.constellation[i].pos.z = random(101, 104);
+      this.constellation[i].orbitRadius = 5;
 
       // Calculate the target position of the current star in its orbit
       let x = this.pos.x + this.orbitRadius * cos(this.constellation[i].angle);
@@ -327,9 +332,9 @@ class Star {
       ); // Adjust the lerp factor as needed
       push();
       //fill('white')
-      strokeWeight(4);
+      strokeWeight(2);
       stroke(this.color);
-      drawingContext.setLineDash([20, 15]);
+      drawingContext.setLineDash([15, 10]);
       line(
         this.pos.x,
         this.pos.y,
@@ -343,19 +348,19 @@ class Star {
   }
   // Deflate the star when mouse is not over
   deflate() {
-    this.radius = map(this.ogZNumber, 0, 100, 12, 1);
+    this.radius = map(this.ogZNumber, 0, 100, 1, 12);
     this.pos.z = this.ogZNumber;
 
     // Generate a random target position for each star only if they don't already have one
     for (let i = 0; i < this.constellation.length; i++) {
       if (!this.constellation[i].target) {
-        let x = random(width);
-        let y = random(height);
+        let x = random(windowWidth - 30);
+        let y = random(windowHeight - 30);
         this.constellation[i].target = createVector(x, y);
       }
     }
     for (let i = 0; i < this.constellation.length; i++) {
-      // Use the lerp function to move the current star towards the target position
+      // Move current star  towards the target position
       this.constellation[i].pos = p5.Vector.lerp(
         this.constellation[i].pos,
         this.constellation[i].target,
@@ -474,17 +479,14 @@ class Modal {
     this.belong = star.pos.z;
     this.starRadius = star.radius;
     this.isVisible = false;
-    this.title = "Star Details";
+    this.title = star.title;
     this.description =
-      "This is a star with radius " +
-      this.starRadius +
-      " and z-position " +
-      this.belong;
+      this.starRadius + " and z-position " + star.ogZNumber + star.notes;
     this.bulletPoints = ["Point 1", "Point 2", "Point 3"]; // Replace with actual properties
 
     // Define the size and position of the modal
-    this.width = 800;
-    this.height = 500;
+    this.width = 600;
+    this.height = 400;
     this.x = (windowWidth - this.width) / 2;
     this.y = (windowHeight - this.height) / 2;
 

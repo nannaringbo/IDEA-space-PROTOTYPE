@@ -65,16 +65,16 @@ class Star {
     this.sense = "";
     this.ogZNumber = z;
     this.pos = createVector(
-      random(0, windowWidth - 20),
-      random(0, windowHeight - 20),
+      random(0, windowWidth - 30),
+      random(0, windowHeight - 30),
       z
     );
     this.radius = map(z, 0, 100, 12, 1); // calculating radius based on the z index. The bigger the z index, the smaller the radius
     this.alpha = random(200, 255);
     this.fadeAmount = random(1, 5); //the amount that alpha is de/increased for every update
-    this.rotationSpeed = random(-0.02, 0.02);
-    this.angle = random(-90, 90); // Angle for rotation
-    this.speed = random(-0.05, 0.0);
+    this.rotationSpeed = random(1, 1.5);
+    this.angle = random(50, 100); // Angle for rotation
+    this.speed = random(1, 10);
     this.color = color(
       random([
         [0, 0, 255],
@@ -179,8 +179,8 @@ class Star {
     );
     this.constellation = [];
     this.isClicked = false;
-    this.orbitRadius = random(-50, 50);
-    this.lerpNumber = random(0.01, 0.1);
+    this.orbitRadius = random(41, 50);
+    this.lerpNumber = random(0.1, 0.5);
   }
 
   makeConstellation(stars) {
@@ -216,13 +216,13 @@ class Star {
     }
     for (let i = 0; i < this.constellation.length; i++) {
       // Update the angle for the current star
-      this.constellation[i].angle += 0.01; // Adjust the speed as needed
+      //this.constellation[i].angle += 0.01; // Adjust the speed as needed
       this.constellation[i].radius = this.radius;
-      this.constellation[i].pos.z = random(0.1, 2);
+      this.constellation[i].pos.z = 0;
 
       // Calculate the target position of the current star in its orbit
-      let x = this.pos.x + this.orbitRadius * cos(this.constellation[i].angle);
-      let y = this.pos.y + this.orbitRadius * sin(this.constellation[i].angle);
+      let x = this.pos.x + this.orbitRadius;
+      let y = this.pos.y + this.orbitRadius;
       let target = createVector(x, y);
 
       // lerp function to move the current star towards the target position
@@ -244,8 +244,8 @@ class Star {
       // Generate a random target position for each star only if they don't already have one
       for (let i = 0; i < this.constellation.length; i++) {
         if (!this.constellation[i].target) {
-          let x = random(width);
-          let y = random(height);
+          let x = random(windowwidth - 30);
+          let y = random(windowHeight - 30);
           this.constellation[i].target = createVector(x, y);
         }
       }
@@ -285,7 +285,7 @@ class Star {
     let yoffset = sin(this.angle) * this.speed;
     this.pos.x = (this.pos.x + xoffset + windowWidth) % windowWidth;
     this.pos.y = (this.pos.y + yoffset + windowHeight) % windowHeight;
-    this.angle += 0.01; // Increment the angle by a small value
+    this.angle += 0.1; // Increment the angle by a small value
   }
 
   twinkle() {
