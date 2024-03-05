@@ -174,11 +174,11 @@ function setup() {
 
 function fillArray() {
   for (let s = 0; s < sampleZNumbers.length; s++) {
-    console.log(sampleZNumbers[s]);
+    //console.log(sampleZNumbers[s]);
     let p = new Star(sampleZNumbers[s]);
-    console.log(p);
-    console.log(p.pos.z);
-    console.log(p.radius);
+    //console.log(p);
+    //console.log(p.pos.z);
+    //console.log(p.radius);
     stars.push(p);
   }
 }
@@ -266,8 +266,8 @@ class Star {
     this.alpha = random(200, 255);
     this.fadeAmount = random(1, 5); //the amount that alpha is de/increased for every update
     this.rotationSpeed = random(0.02, 0.2);
-    this.angle = random(-90, 90); // Angle for rotation
-    this.speed = random(0, 0.1);
+    this.angle = random(-80, 90); // Angle for rotation
+    this.speed = random(0, 0.2);
     this.color = color(random(colorMatrix));
     this.constellation = [];
     this.isClicked = false;
@@ -285,7 +285,6 @@ class Star {
         this.constellation.push(stars[i]);
         console.log("We belong together!");
       }
-      //console.log(this.constellation);
     }
   }
 
@@ -321,6 +320,7 @@ class Star {
       this.constellation[i].radius = this.radius - 10;
       this.constellation[i].pos.z = random(101, 104);
       this.constellation[i].orbitRadius = 5;
+      this.constellation[i].speed = 0.01;
 
       // Calculate the target position of the current star in its orbit
       let x = this.pos.x + this.orbitRadius * cos(this.constellation[i].angle);
