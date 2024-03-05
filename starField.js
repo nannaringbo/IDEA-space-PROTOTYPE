@@ -5,6 +5,7 @@ let sampleZNumbers = [];
 let modal = null;
 let colorSelector;
 let titles = [];
+let img = null;
 // toprow colors on the color palette.
 /*
 let colorMatrix = [
@@ -153,6 +154,8 @@ function preload() {
   loadStrings("title_data.txt", function (dataTitles) {
     titles = dataTitles.map((title) => new String(title.trim()));
   });
+
+  img = loadImage("movementSense.png");
 }
 
 function setup() {
@@ -248,11 +251,11 @@ class Star {
   constructor(z) {
     this.title = random(titles);
     this.notes =
-      "Fusce vitae sodales sem, venenatis porttitor lorem. Curabitur faucibus sagittis magna a pellentesque. Aliquam malesuada euismod erat ac dignissim. Aliquam vel viverra turpis. Suspendisse pellentesque condimentum orci, quis consequat tellus accumsan pretium. Nullam lobortis vestibulum eleifend. Donec mauris neque, ornare consectetur justo ut, pulvinar dapibus lorem. Quisque quis lacus sit amet urna pharetra lacinia in nec lorem. Maecenas hendrerit metus eget luctus sagittis. Nunc at interdum odio, in elementum ipsum. Maecenas urna urna, pulvinar et urna posuere, faucibus euismod tortor.";
+      "Business concept: Launch a gourmet ice cream sandwich truck offering a unique twist on the classic treat. We'll use homemade, artisanal ice cream packed between freshly-baked cookies, waffles, or brownies. This mobile business will cater to a broad audience, from children to adults, by offering a wide range of flavors, including vegan and gluten-free.";
     this.location = "📍Isamageriet";
     this.img = "SV_NotExist.jpg";
     this.sound = "";
-    this.sense = "";
+    this.senses = "";
     this.ogZNumber = z;
     this.pos = createVector(
       random(0, windowWidth - 30),
@@ -480,16 +483,15 @@ class Modal {
     this.starRadius = star.radius;
     this.isVisible = false;
     this.title = star.title;
-    this.description =
-      this.starRadius + " and z-position " + star.ogZNumber + star.notes;
-    this.bulletPoints = ["Point 1", "Point 2", "Point 3"]; // Replace with actual properties
+    this.description = star.notes;
+    this.senses = img; // Replace with actual properties
     this.color = star.color;
 
     // Get the modal elements
     this.modal = document.getElementById("starModal");
     this.modalTitle = document.getElementById("modalTitle");
     this.modalDescription = document.getElementById("modalDescription");
-    this.modalBulletPoints = document.getElementById("modalBulletPoints");
+    this.modalSenses = document.getElementById("modalSenses");
     this.closeButton = document.getElementById("closeButton");
 
     // Add event listener to the close button
@@ -501,9 +503,7 @@ class Modal {
       // Set the modal content
       this.modalTitle.textContent = this.title;
       this.modalDescription.textContent = this.description;
-      this.modalBulletPoints.innerHTML = this.bulletPoints
-        .map((point) => `<li>${point}</li>`)
-        .join("");
+      this.modalSenses.innerHTML = `<img src="sensesImage.png" alt="Senses Image">`;
 
       // Show the modal
       this.modal.style.display = "block";

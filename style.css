@@ -7,6 +7,7 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+  font-family: "Courier Prime", monospace;
 }
 
 canvas {
@@ -78,19 +79,65 @@ canvas {
   background-color: rgba(32, 33, 36, 0.7); /* Dark grey w/ opacity */
 }
 
-/* content for starModal */
-.modal-content {
-  background-color: #ceead6; /* Light green */
-  margin: 15% auto; /* 15% from the top and centered */
+.modal-title {
+  position: relative;
+  width: 100%;
+  color: #feefc3;
+  background: #d5792d;
+  text-size-adjust: 50%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  font: 1000 45px Sans-Serif;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2px #feefc3;
+}
+
+.description-senses-container {
+  display: flex;
+  flex: 1; /* Adjust this to control the height of the container */
+  width: 100%;
+  height: 100%;
+}
+
+.description-content {
+  flex: 1;
+  color: #feefc3;
   padding: 20px;
-  border: 1px solid #e37400; /* Orange */
-  width: 60%; /* Could be more or less, depending on screen size */
+  text-align: justify;
+  hyphens: auto;
+}
+h3.notes-title {
+  display: flex;
+  color: #feefc3;
+}
+.modal-description {
+  flex: 1;
+  color: #feefc3;
+  text-align: justify;
+}
+
+.modal-senses {
+  flex: 1;
+  padding-right: 5px;
+  color: #feefc3;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  height: 80%;
+  border-radius: 4px;
+  border: 2px;
+  background-color: #202124;
+  margin: 5% auto;
+  border: 1px solid #e37400;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  animation-name: animatetop;
   animation-duration: 0.4s;
 }
 
-@keyframes animatetop {
+/* @keyframes animatetop {
   from {
     top: -300px;
     opacity: 0;
@@ -99,14 +146,20 @@ canvas {
     top: 0;
     opacity: 1;
   }
-}
+} */
 
-/* close button for starModal */
 .close {
-  color: #202124; /* Dark grey */
-  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 5px;
+  color: #feefc3; /* Dark grey */
+  z-index: 10;
   font-size: 28px;
   font-weight: bold;
+  background: #202124;
 }
 
 .close:hover,
